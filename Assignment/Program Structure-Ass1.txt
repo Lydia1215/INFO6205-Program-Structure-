@@ -1,0 +1,147 @@
+INFO 6205: Program Structures and Algorithms
+Assignment 1
+
+1. Find out if a Tree is Balanced. (Tree is balanced if for every node difference between height of left and right is <=1) https://leetcode.com/problems/balanced-binary-tree/
+
+
+2. Find Minimum depth of all the leaves in a tree. https://leetcode.com/problems/minimum-depth-of-binary-tree/
+
+
+3. Print all the leaves of a tree.  https://leetcode.com/problems/find-leaves-of-binary-tree/
+
+
+4. Print sum of all the left leaves. https://leetcode.com/problems/sum-of-left-leaves/
+
+
+
+Python Solution
+Q1. Question 110. Balanced Binary Tree
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+class Solution:
+    def isBalanced(self, root: TreeNode) -> bool:
+        # corner case
+        if root is None:
+            return True
+        
+        flag = True
+        def explore_depth(root):
+            nonlocal flag
+            d1, d2 = 0, 0
+            if root.left is not None:
+                d1 = explore_depth(root.left)
+            if root.right is not None:
+                d2 = explore_depth(root.right)
+            if abs(d1 - d2) > 1:
+                flag = False
+            # print(root.val, d1, d2, "flag", flag)
+            return max(d1, d2) + 1
+        
+        explore_depth(root)
+        return flag
+
+Q2. Question 111. Minimum Depth of Binary Tree
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def minDepth(self, root: TreeNode) -> int:
+        def explore(root):
+            if root is None:
+                return 0
+            d_lst = []
+            if root.left is not None:
+                d_lst.append(explore(root.left))
+            if root.right is not None:
+                d_lst.append(explore(root.right))
+            if root.left is None and root.right is None:
+                return 1
+            
+            min_depth = min(d_lst) + 1
+            return min_depth
+        
+        md = explore(root)
+        return md
+
+
+
+
+Q3. Find Leaves of Binary Tree
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def findLeaves(self, root: TreeNode) -> List[List[int]]:
+        if root is None:
+            return []
+        
+        def add_record(record_dict, key, node):
+            if key in record_dict:
+                record_dict[key].append(node.val)
+            else:
+                record_dict[key] = [node.val]
+        
+        def explore_leaves(root):
+            nonlocal record_dict
+            # bottom case
+            H = 1
+            if root.left is None and root.right is None:
+                add_record(record_dict, H, root)
+                return 1
+            
+            if root.left is not None:
+                H = max(explore_leaves(root.left)+1, H)
+            if root.right is not None:
+                H = max(explore_leaves(root.right)+1, H)
+            
+            add_record(record_dict, H, root)
+            return H
+        
+        record_dict = {}
+        max_height = explore_leaves(root)
+        record_lst = []
+        for i in range(1, max_height+1):
+            record_lst.append(record_dict[i])
+        return record_lst
+        
+
+Q4. Sum of Left Leaves
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+class Solution:
+    def sumOfLeftLeaves(self, root: TreeNode) -> int:
+        def explore_lls(root):
+            if root is None:
+                return 0
+            s = 0
+            if root.left is not None:
+                s += explore_lls(root.left)
+            if root.right is not None:
+                s += explore_lls(root.right)
+            # bottom case
+            if root.left is not None and root.left.left is None and root.left.right is None:
+                s += root.left.val
+            return s
+        return explore_lls(root)
+
+
+
