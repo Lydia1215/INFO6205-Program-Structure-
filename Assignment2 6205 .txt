@@ -1,0 +1,179 @@
+Info: 6205: Program Structures and Algorithms
+Assignment2
+
+
+Q1.
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def swapPairs(self, head: ListNode) -> ListNode:
+        # strategy, we only swap values
+        if head is None:
+            return head
+        current = head
+        def swap_vals(p1, p2):
+            p1_val = p1.val
+            p1.val = p2.val
+            p2.val = p1_val
+        
+        while current is not None and current.next is not None:
+            # swap values
+            swap_vals(current, current.next)
+            current = current.next.next
+        return head
+
+Q2.
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def deleteNode(self, node):
+        """
+        :type node: ListNode
+        :rtype: void Do not return anything, modify node in-place instead.
+        """
+        # strategy: we have to overwrite value one by one and delete the last one
+        current_node = node
+        while current_node.next is not None and current_node.next.next is not None:
+            current_node.val = current_node.next.val
+            current_node = current_node.next
+        # reach the end
+        current_node.val = current_node.next.val
+        current_node.next = None
+
+Q3.
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def oddEvenList(self, head: ListNode) -> ListNode:
+        if head is None:
+            return head
+        if head.next is None or head.next.next is None:
+            return head
+        # strategy: use a odd pointer and an even pointer
+        h_odd, h_even = head, head.next
+        n_odd, n_even = h_odd, h_even
+        
+        current_node = head.next.next
+        count = 3
+        while current_node is not None:
+            next_node = current_node.next
+            if count % 2 == 1:
+                n_odd.next = current_node
+                n_odd = current_node
+            else:
+                n_even.next = current_node
+                n_even = current_node
+            current_node = next_node
+            count += 1
+        # clean the end butt with None
+        n_odd.next = None
+        n_even.next = None
+        # connect odd and even headers by concatenate two sequence
+        # print('n_odd:', h_odd.val, h_odd.next.val, h_odd.next.next.val)
+        # print('n_even:',h_even.val, h_even.next.val, h_even.next.next.val)
+        n_odd.next = h_even
+        return head
+Q4.
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def splitListToParts(self, root: ListNode, k: int) -> List[ListNode]:
+        if root is None:
+            return [None for i in range(k)]
+        # count the length of the list
+        count = 0
+        node = root
+        while node is not None:
+            count += 1
+            node = node.next
+        print(count)
+        group_size = int(count / k)
+        group_bignum = count % k
+        
+        lst = [root]
+        
+        node = root
+        count_l = 1
+        print(group_size, group_bignum)
+        while node is not None:
+            print("count_l:", count_l, "; node value:", node.val)
+            node_next = node.next
+            if count_l == (group_size+1) and len(lst) <= group_bignum:
+                node.next = None
+                lst.append(node_next)
+                count_l = 0
+            if count_l == group_size and len(lst) > group_bignum and len(lst) < k:
+                node.next = None
+                lst.append(node_next)
+                count_l = 0
+            node = node_next
+            count_l += 1
+            
+        while len(lst) < k:
+            lst.append(None)
+        return lst
+        
+
+Q5.
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val=None, next=None):
+        self.val = val
+        self.next = next
+"""
+
+class Solution:
+    def insert(self, head: 'Node', insertVal: int) -> 'Node':
+        if head is None:
+            head = Node(val=insertVal, next = None)
+            head.next = head
+            return head
+        
+        head = head
+        node = head
+        node_min, node_max = head, head
+        # get min/max of nodes
+        while node.next != head:
+            if node.val <= node_min.val:
+                node_min = node
+            if node.val >= node_max.val:
+                node_max = node
+            if node.val <= insertVal and node.next.val >= insertVal:
+                temp_node = node.next
+                node.next = Node(val=insertVal, next = temp_node)
+                return head
+            node = node.next
+        # iterate one last time
+        if node.val <= node_min.val:
+            node_min = node
+        if node.val >= node_max.val:
+            node_max = node
+        if node.val <= insertVal and node.next.val >= insertVal:
+                temp_node = node.next
+                node.next = Node(val=insertVal, next = temp_node)
+                return head
+        # extreme case (add new largest/smallest numbers)
+        # print(node_min.val, node_max.val)
+        if insertVal > node_max.val:
+            temp_node = node_max.next
+            node_max.next = Node(val=insertVal, next = temp_node)
+        if insertVal < node_min.val:
+            temp_node = node_max.next
+            node_max.next = Node(val=insertVal, next = temp_node)
+        
+        return head
+         
