@@ -1,0 +1,200 @@
+
+
+1. Solution:
+    def mergeInBetween(self, list1: ListNode, a: int, b: int, list2: ListNode) -> ListNode:
+        node = list1
+        node_a_prev, node_b = node, node
+        for count in range(0, b+1):
+            if count == a-1:
+                node_a_prev = node
+            if count == b:
+                node_b = node
+            node = node.next
+        
+        node = list2
+        node_a_prev.next = node
+        while node.next is not None:
+            node = node.next
+        node.next = node_b.next
+        return list1
+2. Solution:
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def swapNodes(self, head: ListNode, k: int) -> ListNode:
+        node_k = head
+        node = head
+        count = 1
+        while node is not None:
+            if count == k:
+                node_k = node
+            count += 1
+            node = node.next
+        neg_k = count - k
+        
+        node = head
+        node_k_val = node_k.val
+        node_nk_val = None
+        for count in range(1,neg_k+1):
+            if count == neg_k:
+                node_nk_val = node.val
+                node.val = node_k_val
+                break
+            count += 1
+            node = node.next
+        node_k.val = node_nk_val
+        return head
+        
+3. Solution: 
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def removeElements(self, head: ListNode, val: int) -> ListNode:
+        if head is None:
+            return head
+        while head is not None and head.val == val:
+            head = head.next
+        
+        node = head
+        while node is not None:
+            if node.next is not None and node.next.val == val:
+                node.next = node.next.next
+                continue
+            node = node.next
+        
+        return head
+
+4. Solution:
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def deleteNodes(self, head: ListNode, m: int, n: int) -> ListNode:
+        count_1 = 1
+        node = head
+        while node is not None:
+            if count_1 == m:
+                current_node = node
+                # print(current_node.val)
+                for i in range(n):
+                    if node.next is not None:
+                        node = node.next
+                    if node is None:
+                        break
+                if node is not None and node.next is not None:
+                    current_node.next = node.next
+                else:
+                    current_node.next = None
+                    break
+                count_1 = 0
+            node = node.next
+            count_1 += 1
+        return head
+    
+
+5. Solution: 
+import java.io.*;
+
+public class DoubleList {
+    Node head;
+    Node tail;
+    int size;
+
+    // double linked list
+    // This inner class is made static
+    // so that main() can access it
+    static class Node {
+        int data;
+        Node next;
+        Node prev;
+
+        Node(int d) {
+            data = d;
+        }
+    }
+
+    public static DoubleList addToTail(DoubleList list, int data){
+        Node new_node = new Node(data);
+        if (list.head == null){
+            list.head = new_node;
+            list.tail = new_node;
+        }
+        else {
+            // find tail
+            Node last = list.tail;
+            last.next = new_node;
+            new_node.prev = last;
+            // update tail
+            list.tail = new_node;
+        }
+        list.size += 1;
+        return list;
+    }
+
+    public static DoubleList addToHead(DoubleList list, int data){
+        Node new_node = new Node(data);
+        if (list.head == null){
+            list.head = new_node;
+            list.tail = new_node;
+        }
+        else {
+            // find tail
+            Node first = list.head;
+            first.prev = new_node;
+            new_node.next = first;
+
+            list.head = new_node;
+        }
+        list.size += 1;
+        return list;
+    }
+
+    public static int getSize(DoubleList list){
+        return list.size;
+    }
+
+    public static void printList(DoubleList list){
+        Node currNode = list.head;
+        System.out.print("DoubleList: ");
+        while (currNode != null) {
+            System.out.print(currNode.data + " ");
+            currNode = currNode.next;
+        }
+    }
+
+    // Driver code
+    public static void main(String[] args)
+    {
+        /* Start with the empty list. */
+        DoubleList list = new DoubleList();
+        //
+        // ******INSERTION******
+        //
+
+        // Insert the values
+        list = addToHead(list, 1);
+        list = addToHead(list, 2);
+        list = addToHead(list, 3);
+        list = addToTail(list, 4);
+        list = addToTail(list, 5);
+        list = addToHead(list, 6);
+        list = addToTail(list, 7);
+        list = addToHead(list, 8);
+
+        // Print the LinkedList
+        printList(list);
+        int size = getSize(list);
+        System.out.println("Size is: "+size);
+
+    }
+}
+
