@@ -1,0 +1,79 @@
+Q1.
+
+class Solution:
+    def intersection(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        # use hashmap
+        my_dict1 = {i:True for i in nums1}
+        
+        unique_dict = {}
+        for k in nums2:
+            if k in my_dict1.keys():
+                unique_dict[k] = True
+        
+        unique_list = [key for key in unique_dict]
+        return unique_list
+
+Q2.
+class solution:
+public static int findMin(int[] a, int index){
+    Arrays.sort(a);
+    return a[index-1];  //min
+}
+
+Q3.
+
+class Solution:
+    def sortColors(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        # this is called dutch partitioning problem
+        # use three pointers for three classes
+        red, white, blue = 0, 0, len(nums) - 1
+        
+        while white <= blue:
+            # if white pointer points to red, swap red with white
+            if nums[white] == 0:
+                nums[white] = nums[red]
+                nums[red] = 0
+                white += 1
+                red += 1
+            elif nums[white] == 1:
+                white += 1
+            else:
+                nums[white] = nums[blue]
+                nums[blue] = 2
+                blue -= 1
+
+
+Q4.
+
+class Solution:
+    def pancakeSort(self, arr: List[int]) -> List[int]:
+        # same as bubblesort
+        # find max value in remaining list.
+        # then, use two flips to bring the item to the back of list, decrease right hand side bound by 1
+        
+        # helper method
+        def flip(arr, i):
+            return arr[:i+1][::-1] + arr[i+1:]
+        
+        last_ind = len(arr) - 1
+        flip_lst = []
+        while last_ind > 0:
+            max_idx, max_a = 0, arr[0]
+            for i, a in enumerate(arr[:last_ind+1]):
+                if a > max_a:
+                    max_idx = i
+                    max_a = a
+            flip_lst.append(max_idx+1)
+            flip_lst.append(last_ind+1)
+            arr = flip(arr, max_idx)
+            arr = flip(arr, last_ind)
+            last_ind -= 1
+        
+        return flip_lst
+
+
+
+
