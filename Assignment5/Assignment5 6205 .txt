@@ -1,0 +1,123 @@
+1. Class Solution:
+    def findClosestElements(self, arr: List[int], k: int, x: int) -> List[int]:
+        # corner cases
+        if k == 0:
+            return []
+        if len(arr) <= k:
+            return arr
+        
+        p_left, p_right = 0, len(arr)-1
+        while (p_right-p_left+1) > k:
+            if abs(arr[p_left]-x) > abs(arr[p_right]-x):
+                p_left += 1
+                continue
+            elif abs(arr[p_left]-x) < abs(arr[p_right]-x):
+                p_right -= 1
+                continue
+            elif abs(arr[p_left]-x) == abs(arr[p_right]-x):
+                p_right -= 1
+                continue
+        
+        return arr[p_left:p_right+1]
+
+2. Class Solution:
+    def intersect(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        # corner case
+        if len(nums1)==0 or len(nums2)==0:
+            return []
+        nums1 = sorted(nums1)
+        nums2 = sorted(nums2)
+        # for sorted list, write algorithm use two pointers
+        p1, p2 = 0, 0
+        intersect_lst = []
+        while p1 < len(nums1) and p2 < len(nums2):
+            if nums1[p1] < nums2[p2]:
+                p1 += 1
+                continue
+            elif nums1[p1] > nums2[p2]:
+                p2 += 1
+                continue
+            else:
+                intersect_lst.append(nums1[p1])
+                p1 += 1
+                p2 += 1
+        return intersect_lst
+
+
+
+
+3. Class Solution 
+
+    def peakIndexInMountainArray(self, arr: List[int]) -> int:
+        for i in range(1, len(arr)-1):
+            if arr[i] > arr[i-1] and arr[i] > arr[i+1]:
+                break
+                
+        return i
+
+4. Class Solution:
+
+public static String reorganizeString(String S) {
+    if(S == null || S.isEmpty()) {
+        return null;
+    }
+
+    char strArray[] = S.toCharArray();
+    int count[] = new int[26];
+    int max = 1;
+    char maxChar = strArray[0];
+
+    for(int i = 0; i < strArray.length; i++) {
+        count[strArray[i] - 'a']++;
+    }
+
+    for (char c:strArray) {
+        if(count[c - 'a'] > max) {
+            max = count[c - 'a'];
+            maxChar = c;
+        }
+    }
+
+    if(max > (strArray.length + 1) / 2) {
+        return "";
+    }
+
+    int index = 0;
+    char result[] = new char[strArray.length];
+
+    while(count[maxChar - 'a'] > 0) {
+        result[index] = maxChar;
+        index += 2;
+        count[maxChar - 'a']--;
+    }
+
+    for(int i = 0; i < 26; i++) {
+        for (;count[i]>0;count[i]--,index+=2){
+            if(index >= strArray.length) {
+                index = 1;
+            }
+            result[index] = (char)(i + 'a');
+        }
+    }
+
+    return new String(result);
+}
+
+
+
+
+5. Class Solution:
+
+public int count(int[] a){
+   int sum=0;
+   for (int i = 0; i < a.length; i++) {
+      if (a[i]==1){
+         sum++;
+      }
+   }
+   return sum;
+}
+
+
+
+
