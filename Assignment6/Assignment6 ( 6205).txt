@@ -1,0 +1,145 @@
+1.
+       public boolean isSubtree(
+TreeNode s, TreeNode t) {
+        if(null==s){
+            return false;
+        }
+        if(null==t){
+            return true;
+        }
+        if(s.val==t.val &&
+ isSametree(s,t)){
+            return true;
+        }
+        return isSubtree(
+s.left,t)||isSubtree(s.right,t);
+    }
+public boolean isSametree(
+TreeNode s, TreeNode t){
+        if(null==s && null==t){
+            return true;
+        }
+        if(null==s || null==t){
+            return false;
+        }
+        if(s.val!=t.val){
+            return false;
+        }
+        return isSametree(
+s.left,t.left)&&isSametree(
+s.right,t.right);
+    }
+
+2. 
+      class Solution:
+    def asteroidCollision(self, asteroids: List[int]) -> List[int]:
+        ans = []
+        for a in asteroids:
+            if a > 0:
+                ans.append(a)
+            else:
+                appendFlag = True
+                while ans:
+                    if ans[-1] < 0:
+                        break
+                    else:
+                        if ans[-1] + a < 0:
+                            ans.pop(-1)
+                        elif ans[-1] + a == 0:
+                            ans.pop(-1)
+                            appendFlag = False
+                            break
+                        else:
+                            appendFlag = False
+                            break
+                if appendFlag:
+                    ans.append(a)                    
+        return ans
+3. 
+class Solution:
+    def threeSum(self, nums: list) -> list:
+        ans = []
+        nums.sort() # O(nlgn)
+        for i in range(len(nums)-2): # O(n^2)
+            if i != 0 and nums[i] == nums[i-1]:
+                continue
+            if nums[i] + nums[-1] + nums[-2] < 0:
+                continue
+            if nums[i] + nums[i+1] + nums[i+2] > 0:
+                break
+            left, right = i+1, len(nums)-1
+            while left < right:
+                Sum = nums[i] + nums[left] + nums[right]
+                if Sum == 0:
+                    ans.append([nums[i], nums[left], nums[right]])
+                    left += 1
+                    while left < right and nums[left-1] == nums[left]:
+                        left += 1
+                        
+                    right -= 1
+                    while left < right and nums[right+1] == nums[right]:
+                        right -= 1
+                elif Sum > 0:
+                    right -= 1
+                else:
+                    left += 1
+        return ans
+4.       
+             class Solution:
+def generateParenthesis(self, n: int) -> List[str]:
+        res = []
+        def solve(s, n, o, c):
+            if n == 0 and o == c:
+                res.append(s)
+                return None
+            if n >= 0:
+                solve(s+"(", n-1, o+1, c)
+                if o > c:
+                    solve(s+")", n, o, c+1)
+            else:
+                return None
+        solve("", n, 0,0)
+        return res
+	```
+5.        
+public ListNode reverseKGroup
+(ListNode head, int k) {
+        ListNode headnew =new
+ ListNode(0);
+        headnew.next=head;
+        ListNode start=head;
+        ListNode end=headnew;
+        //
+        ListNode L=headnew;
+        //
+        ListNode N=start;
+        while(end!=null){
+            //
+            int count=0;
+            while(
+end.next!=null&&count<k){
+                end=end.next;
+                count++;
+            }
+            if(count!=k){
+                break;
+            }
+            //
+            L.next=end;
+            //
+            for(int i=0;i<k-1;i++){
+                ListNode
+ temp=start.next;
+                start.next=end.next;
+                end.next=start;
+                start=temp;
+            }
+            //
+            L=N;
+            end=N;
+            //
+            N=N.next;
+            start=N;
+        }
+    return headnew.next;
+    }
