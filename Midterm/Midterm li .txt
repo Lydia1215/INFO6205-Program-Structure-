@@ -1,0 +1,202 @@
+1.
+ public class Solution {
+ public static boolean areConverging (ListNode n1, ListNode n2) {
+  ListNode node1=n1;
+  ListNode node2=n2;
+  while (node1.next != null)
+  {
+   while (node2.next != null)
+   {
+    if(node1==node2)
+    {
+     return true;
+    }
+    node2=node2.next;
+   }
+   node1=node1.next;
+   node2=n2;
+  }
+  return false; 
+ }
+
+ 
+ public static void main(String[] args) {
+  
+  ListNode a5 = new ListNode(5,null);
+  ListNode a4 = new ListNode(4,a5);
+  ListNode a3 = new ListNode(3,a4);
+  ListNode a2 = new ListNode(2,a3);
+  ListNode a1 = new ListNode(1,a2);
+  
+  ListNode b3 = a3;
+  ListNode b2 = new ListNode(2,b3);
+  ListNode b1 = new ListNode(1,b2);
+
+  ListNode c5 = new ListNode(5);
+  ListNode c4 = new ListNode(4,c5);
+  ListNode c3 = new ListNode(3,c4);
+  ListNode c2 = new ListNode(2,c3);
+  ListNode c1 = new ListNode(1,c2);
+  // TODO Auto-generated method stub
+  boolean b = areConverging(b1,a1);
+  boolean c = areConverging(a1,c1);
+  System.out.println("Nodelist a Converge Nodelist b? "+ b);
+  System.out.println("Nodelist a Converge Nodelist c? "+ c);
+
+ }
+
+}
+
+2. 
+
+public class Solution2 {
+ private static ArrayList<TreeNode> tList = new ArrayList<TreeNode>();
+ private static ArrayList<TreeNode> left = new ArrayList<TreeNode>();
+ private static void bo(TreeNode node) {
+        if (node == null) {
+            return;
+        }
+        bo(node.right);
+        if (node.left == null && node.right == null) {
+            tList.add(node);    
+            return;
+        }
+        if (tList.get(tList.size() - 1) == tList.get(tList.size() - 2)) {
+         tList.remove(tList.size() - 1);    
+        }
+        bo(node.left);
+    }
+
+ public static void printPerimeter(TreeNode root){
+  //right 
+  TreeNode node = root;
+        while (node != null) {
+            tList.add(node);
+            node = node.right;
+        }
+        //bottom
+        bo(root);
+        node = root;
+        //left
+        while (node != null) {
+            left.add(node);
+            node = node.left;
+        }
+        if (tList.get(tList.size() - 1) == left.get(left.size()-1)) {
+         left.remove(left.size()-1);    
+        }
+        for(int i=left.size()-1; i>0; i-- )
+        {
+         tList.add(left.get(i));
+        }
+
+ }
+ public static void main(String[] args) {
+  
+  TreeNode t14 = new TreeNode(14);
+  TreeNode t13 = new TreeNode(13);
+  TreeNode t12 = new TreeNode(12);
+  TreeNode t11 = new TreeNode(11);
+  TreeNode t10 = new TreeNode(10);
+  TreeNode t9 = new TreeNode(9);
+  TreeNode t8 = new TreeNode(8);
+  TreeNode t7 = new TreeNode(7,t14,null);
+  TreeNode t6 = new TreeNode(6,null,t13);
+  TreeNode t5 = new TreeNode(5,t10,t11);
+  TreeNode t4 = new TreeNode(4,t8,t9);
+  TreeNode t3 = new TreeNode(3,t6,t7);
+  TreeNode t2 = new TreeNode(2,t4,t5);
+  TreeNode t1 = new TreeNode(1,t2,t3);
+  
+  printPerimeter(t1);
+  for(int i=0; i < tList.size();i++ )
+  {
+   System.out.println(tList.get(i).val);
+  }
+  
+  // TODO Auto-generated method stub
+
+ }
+
+}
+
+
+
+
+
+
+
+3. 
+public class Solution {
+    public int findMaxConsecutiveOnes(int[] nums) {
+        int max = 0;
+        int sum = 0;
+        if (nums == null){
+            return 0;
+        }
+        for (int num:nums){
+            if (num == 1){
+                sum++;
+            }else {
+                max=max>sum?max:sum;
+                sum = 0;
+            }
+        }
+        max=max>sum?max:sum;
+        return max;
+    }
+
+    public static void main(String[] args) {
+        int[] nums=new int[]{0,1,1,0,1,0,1,1,0,1,1,1,0};
+        Solution solution = new Solution();
+        System.out.println(solution.findMaxConsecutiveOnes(nums));
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4. public class Solution {
+    
+    public int getIndex(int[] nums, int x){
+        int start = 0;
+        int end = nums.length - 1;
+        while (start <= end) {
+            int mid = (start + end) / 2;
+            if (x < nums[mid]) {
+                end = mid - 1;
+            } else if (x > nums[mid]) {
+                start = mid + 1;
+            } else {
+                return mid;
+            }
+        }
+        return -1;
+    }
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        int[] nums = new int[] { 12, 23, 34, 45, 56, 67, 77, 89, 90 };
+        System.out.println(solution.getIndex(nums, 12));
+    }
+}
+
+
+
+
+
+
+
+
