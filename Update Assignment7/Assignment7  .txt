@@ -1,0 +1,106 @@
+1.class Solution {
+public void rotate(int[][] matrix) {
+
+		// transpose the matrix
+		for(int m=0;m<=matrix.length-1;m++){            
+			for(int n=m;n<matrix[0].length;n++){
+				int temp=matrix[m][n];
+				matrix[m][n]=matrix[n][m];
+				matrix[n][m]=temp;
+			}         
+		}
+
+		// reverse every row in the matrix 
+		for(int row=0;row<matrix.length;row++){
+
+			int indexNumber=0;
+			int len=matrix[0].length-1;
+
+			while(indexNumber<len){
+				int swap=matrix[row][indexNumber];
+				matrix[row][index]=matrix[row][len];
+				matrix[row][len]=swap;
+				indexNumber++;
+				len--;
+			}
+		}
+	}
+}
+
+2. class Solution {
+public String reverseWords(String s) {
+StringBuilder newWord= new StringBuilder();
+        s = s.trim();
+        String[] words= s.split(" ");
+        for(int i=words.length-1;i>=0;i--){
+             String str = words[i].trim();
+            if(str.length() == 0){
+                continue;
+            }
+            newWord.append(str);
+            if(i != 0){
+                newWord.append(" ");
+            }
+        }
+        return newWord.toString();
+    }
+}
+
+3. public void setZeroes(int[][] matrix) {
+    int m=matrix.length;
+    int n=matrix[0].length;
+    int[] a= new int[m];
+    int[] b= new int[n];
+    for(int i=0;i<m;i++){
+        for(int j=0;j<n;j++){
+            if(matrix[i][j]==0){
+                a[i]=1;
+                b[j]=1;
+            }
+        }
+    }
+    for(int i=0;i<m;i++){
+        for(int j=0;j<n;j++){
+            if(a[i]==1||b[j]==1){
+                matrix[i][j]=0;
+            }
+        }
+    }
+}
+
+4. public class Solution {
+    public boolean isAnagram(String s, String t) {
+        int length = s.length();
+        if(length != t.length()) {
+            return false;
+        }
+        char[] firstStr = s.toCharArray();
+        char[] lastStr = t.toCharArray();
+        int[] mask = new int[256];
+        for(char c : firstStr ) {
+            mask[c]++;
+        }
+        for(char c : lastStr ) {
+            if(mask[c] > 0) {
+                mask[c]--;
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+5. public String longestCommonPrefix(String[] strs) {
+  if (strs == null || strs.length == 0) {
+    return "";
+  }
+  for (int m = 0; m < strs[0].length(); m++) {
+    for (int n = 1; n < strs.length; n++) {
+      if (m >= strs[n].length() || strs[n].charAt(m) != strs[0].charAt(m)) {
+        return strs[0].substring(0, m);
+      }
+    }
+  }
+  
+  return strs[0];
+}
